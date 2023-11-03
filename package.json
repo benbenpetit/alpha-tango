@@ -12,6 +12,7 @@
   "dependencies": {
     "@studio-freight/react-lenis": "^0.0.36",
     "clsx": "^2.0.0",
+    "gsap": "^3.12.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.69.5"
