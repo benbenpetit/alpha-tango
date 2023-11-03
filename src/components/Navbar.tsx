@@ -1,23 +1,11 @@
 import clsx from 'clsx'
-import {
-  MouseEvent as ReactMouseEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState
-} from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 const lerp = (a: number, b: number, n: number) => (1 - n) * a + n * b
 
 const Navbar = () => {
   const requestRef = useRef<number>(0)
   const navRef = useRef<HTMLElement>(null)
-  const followingCircleRef = useRef<HTMLSpanElement>(null)
-  const [isHover, setIsHover] = useState(false)
-  const [navPos, setNavPos] = useState({ x: 0, y: 0 })
-  const [lerpPosition, setLerpPosition] = useState({ x: 0, y: 0 })
-  const [position, setPosition] = useState({ x: 0, y: 0 })
-
   const pointRef = useRef<HTMLSpanElement>(null)
   const listRef = useRef<HTMLUListElement>(null)
   const [activeItemIndex, setActiveItemIndex] = useState(0)
@@ -35,10 +23,6 @@ const Navbar = () => {
       itemsX.push(x)
     }
     setItemsX(itemsX)
-    setNavPos({
-      x: navRef.current!.getBoundingClientRect().left,
-      y: navRef.current!.getBoundingClientRect().top
-    })
   }
 
   const handleMouseEnterLink = (i: number) => {
@@ -52,37 +36,19 @@ const Navbar = () => {
   }
 
   const setMousePosition = useCallback(() => {
-    setLerpPosition({
-      x: lerp(lerpPosition.x, position.x, 0.15),
-      y: lerp(lerpPosition.y, position.y, 0.15)
-    })
-
     setLerpPointX(lerp(lerpPointX, pointX, 0.08))
-
     requestRef.current = requestAnimationFrame(setMousePosition)
-  }, [position, lerpPosition, pointX, lerpPointX])
-
-  const handleMouseMove = useCallback(
-    (e: MouseEvent | ReactMouseEvent) => {
-      const { clientX, clientY } = e
-      const x = clientX - navPos.x
-      const y = clientY - navPos.y
-      setPosition({ x, y })
-    },
-    [navPos]
-  )
+  }, [pointX, lerpPointX])
 
   useEffect(() => {
     window.addEventListener('resize', handleWindowResize)
-    window.addEventListener('mousemove', (e) => handleMouseMove(e))
     requestRef.current = requestAnimationFrame(setMousePosition)
 
     return () => {
       window.removeEventListener('resize', handleWindowResize)
-      window.removeEventListener('mousemove', handleMouseMove)
       cancelAnimationFrame(requestRef.current)
     }
-  }, [handleMouseMove, setMousePosition])
+  }, [setMousePosition])
 
   useEffect(() => {
     handleWindowResize()
@@ -93,19 +59,7 @@ const Navbar = () => {
 
   return (
     <header>
-      <nav
-        ref={navRef}
-        onMouseEnter={() => setIsHover(true)}
-        onMouseMove={(e) => handleMouseMove(e as ReactMouseEvent)}
-        onMouseLeave={() => setIsHover(false)}
-      >
-        <span
-          ref={followingCircleRef}
-          className={clsx('following-circle', isHover && 'is-hover')}
-          style={{
-            transform: `translate(calc(${lerpPosition.x}px - 50%), calc(${lerpPosition.y}px - 50%))`
-          }}
-        />
+      <nav ref={navRef}>
         <span
           ref={pointRef}
           className='point'

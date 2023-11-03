@@ -36,7 +36,7 @@
 
 body {
   margin: 0;
-  background-color: #23262e;
+  background-color: #632692;
   font-family: 'Neue Montreal', sans-serif;
 }
 
@@ -45,6 +45,7 @@ header {
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 999;
   display: flex;
   justify-content: center;
   pointer-events: none;
@@ -71,33 +72,13 @@ header {
       z-index: 0;
     }
 
-    .following-circle {
-      position: absolute;
-      z-index: 1;
-      display: block;
-      left: 0;
-      top: 0;
-      width: 24px;
-      height: 24px;
-      border-radius: 9999px;
-      background-color: rgba(255, 255, 255, 0.3);
-      filter: blur(20px);
-      opacity: 0;
-      transition: opacity 0.375s cubic-bezier(0.2, 0, 0, 1);
-      pointer-events: none;
-
-      &.is-hover {
-        opacity: 1;
-      }
-    }
-
     .point {
       position: absolute;
       left: 0%;
-      bottom: 20%;
+      bottom: 24%;
       width: 4px;
       height: 4px;
-      background-color: #fff;
+      background-color: rgba(255, 255, 255, 0.8);
       border-radius: 9999px;
       pointer-events: none;
     }
@@ -117,8 +98,64 @@ header {
         transition: color 0.375s cubic-bezier(0.2, 0, 0, 1);
 
         &:hover {
-          color: #b2b2b2;
+          color: #c1c1c1;
         }
+      }
+    }
+  }
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50vh;
+  padding-bottom: 18vh;
+
+  h1 {
+    font-family: 'EB Garamond', serif;
+    font-weight: 700;
+    font-size: 6vw;
+    color: #fff;
+    transform: translateY(-50%);
+  }
+
+  .diapo {
+    margin-top: 10vh;
+    width: 100%;
+    max-width: calc(100% - 128px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 64px;
+
+      &:not(:last-child) {
+        box-shadow: 0px -15px 20px -6px rgba(0, 0, 0, 0.1);
+      }
+
+      @for $i from 2 through 4 {
+        &:nth-child(#{$i}) {
+          margin-top: -#{$i * 4}vh;
+        }
+      }
+
+      &:nth-child(1) {
+        transform: rotate(-2deg);
+      }
+      &:nth-child(2) {
+        transform: rotate(1deg);
+      }
+      &:nth-child(3) {
+        transform: rotate(-3deg);
+      }
+      &:nth-child(4) {
+        transform: rotate(1deg);
       }
     }
   }
