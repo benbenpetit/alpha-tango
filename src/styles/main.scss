@@ -1,113 +1,125 @@
 @import './reset';
 
 @font-face {
-	font-family: 'Neue Montreal';
-	src: url(../assets/fonts/NeueMontreal-Light.otf) format('opentype');
-	font-weight: 300;
-	font-style: normal;
+  font-family: 'Neue Montreal';
+  src: url(../assets/fonts/NeueMontreal-Light.otf) format('opentype');
+  font-weight: 300;
+  font-style: normal;
 }
 
 @font-face {
-	font-family: 'Neue Montreal';
-	src: url(../assets/fonts/NeueMontreal-LightItalic.otf) format('opentype');
-	font-weight: 300;
-	font-style: italic;
+  font-family: 'Neue Montreal';
+  src: url(../assets/fonts/NeueMontreal-LightItalic.otf) format('opentype');
+  font-weight: 300;
+  font-style: italic;
 }
 
 @font-face {
-	font-family: 'Neue Montreal';
-	src: url(../assets/fonts/NeueMontreal-Bold.otf) format('opentype');
-	font-weight: 700;
-	font-style: normal;
+  font-family: 'Neue Montreal';
+  src: url(../assets/fonts/NeueMontreal-Bold.otf) format('opentype');
+  font-weight: 700;
+  font-style: normal;
 }
 
 @font-face {
-	font-family: 'Neue Montreal';
-	src: url(../assets/fonts/NeueMontreal-BoldItalic.otf) format('opentype');
-	font-weight: 700;
-	font-style: italic;
+  font-family: 'Neue Montreal';
+  src: url(../assets/fonts/NeueMontreal-BoldItalic.otf) format('opentype');
+  font-weight: 700;
+  font-style: italic;
 }
 
 *,
 *::before,
 *::after {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-	margin: 0;
-	background-color: #23262e;
-	font-family: 'Neue Montreal', sans-serif;
+  margin: 0;
+  background-color: #23262e;
+  font-family: 'Neue Montreal', sans-serif;
 }
 
 header {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	display: flex;
-	justify-content: center;
-	pointer-events: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
 
-	nav {
-		position: relative;
-		pointer-events: auto;
-		margin-bottom: 50px;
-		padding: 24px 48px;
-		border-radius: 9999px;
-		overflow: hidden;
+  nav {
+    position: relative;
+    pointer-events: auto;
+    margin-bottom: 50px;
+    padding: 24px 48px;
+    border-radius: 9999px;
+    overflow: hidden;
 
-		&::before {
-			content: '';
-			position: absolute;
-			left: 0;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			backdrop-filter: blur(16px);
-			-webkit-backdrop-filter: blur(16px);
-			background-color: rgba(0, 0, 0, 0.4);
-			border-radius: 9999px;
-			z-index: 0;
-		}
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: 9999px;
+      z-index: 0;
+    }
 
-		.following-circle {
-			position: absolute;
-			z-index: 1;
-			display: block;
-			left: 0;
-			top: 0;
-			width: 24px;
-			height: 24px;
-			border-radius: 9999px;
-			background-color: rgba(255, 255, 255, 0.4);
-			filter: blur(16px);
-			opacity: 0;
-			transition: opacity 0.375s cubic-bezier(0.2, 0, 0, 1);
+    .following-circle {
+      position: absolute;
+      z-index: 1;
+      display: block;
+      left: 0;
+      top: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 9999px;
+      background-color: rgba(255, 255, 255, 0.3);
+      filter: blur(20px);
+      opacity: 0;
+      transition: opacity 0.375s cubic-bezier(0.2, 0, 0, 1);
+      pointer-events: none;
 
-			&.is-hover {
-				opacity: 1;
-			}
-		}
+      &.is-hover {
+        opacity: 1;
+      }
+    }
 
-		ul {
-			position: relative;
-			z-index: 2;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			column-gap: 32px;
+    .point {
+      position: absolute;
+      left: 0%;
+      bottom: 20%;
+      width: 4px;
+      height: 4px;
+      background-color: #fff;
+      border-radius: 9999px;
+      pointer-events: none;
+    }
 
-			li {
-				cursor: pointer;
-				color: #fff;
-				font-size: 16px;
-				transition: color 0.375s cubic-bezier(0.2, 0, 0, 1);
+    ul {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-				&:hover {
-					color: #b2b2b2;
-				}
-			}
-		}
-	}
+      li {
+        padding: 0 16px;
+        cursor: pointer;
+        color: #fff;
+        font-size: 16px;
+        transition: color 0.375s cubic-bezier(0.2, 0, 0, 1);
+
+        &:hover {
+          color: #b2b2b2;
+        }
+      }
+    }
+  }
 }
