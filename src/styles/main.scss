@@ -128,7 +128,7 @@ main {
   }
 
   p {
-    font-size: 2vw;
+    font-size: 1.65vw;
     line-height: 1.5;
     margin: 60px 0;
     width: 60%;
@@ -160,25 +160,6 @@ main {
         height: 100%;
         object-fit: cover;
         border-radius: 48px;
-
-        // @for $i from 2 through 4 {
-        //   &:nth-child(#{$i}) {
-        //     margin-top: -#{$i * 4}vh;
-        //   }
-        // }
-
-        // &:nth-child(1) {
-        //   transform: rotate(-2deg);
-        // }
-        // &:nth-child(2) {
-        //   transform: rotate(1deg);
-        // }
-        // &:nth-child(3) {
-        //   transform: rotate(-3deg);
-        // }
-        // &:nth-child(4) {
-        //   transform: rotate(1deg);
-        // }
       }
     }
   }

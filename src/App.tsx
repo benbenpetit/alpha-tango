@@ -49,42 +49,97 @@ const App = () => {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.utils.toArray('.container').forEach((self, i, { length }) => {
-        const element = self as HTMLElement
+      const elements: HTMLElement[] = gsap.utils.toArray('.container')
+      const length = elements.length
+      const elementsProperties = elements.map((element, i) => {
         const fixerElement = element.querySelector('.fixer')
         const gap = 100 / length
         const marginTop = Math.max(
           60,
           window.innerHeight / 2 - element.clientHeight / 2 - (gap * length) / 2
         )
+        const scaleTo = 0.8 + (i / length) * 0.18
+        const endTransform =
+          (length - 1 - i) * element.clientHeight - (length - 1 - i) * gap
 
-        gsap.fromTo(
+        return {
+          element,
           fixerElement,
-          { scale: 1 },
-          {
-            scale: 0.8 + (i / length) * 0.18,
-            filter: 'blur(3px)',
-            ease: 'none',
-            scrollTrigger: {
-              trigger: element,
-              start: `top ${marginTop + i * gap}`,
-              end: 'bottom top',
-              scrub: true
-            },
-            onStart: () => {
-              gsap.set(fixerElement, {
-                position: 'fixed',
-                top: marginTop + i * gap
-              })
-            },
-            onReverseComplete: () => {
-              gsap.set(fixerElement, {
+          gap,
+          marginTop,
+          scaleTo,
+          endTransform
+        }
+      })
+
+      gsap.utils.toArray('.container').forEach((_, i, { length }) => {
+        if (i < length - 1) {
+          gsap.fromTo(
+            elementsProperties[i].fixerElement,
+            { scale: 1 },
+            {
+              scale: elementsProperties[i].scaleTo,
+              filter: 'blur(3px)',
+              ease: 'none',
+              scrollTrigger: {
+                trigger: elementsProperties[i].element,
+                start: `top ${
+                  elementsProperties[i].marginTop +
+                  i * elementsProperties[i].gap
+                }`,
+                end: 'bottom top',
+                scrub: true
+              },
+              onStart: () => {
+                gsap.set(elementsProperties[i].fixerElement, {
+                  position: 'fixed',
+                  top:
+                    elementsProperties[i].marginTop +
+                    i * elementsProperties[i].gap
+                })
+              },
+              onReverseComplete: () => {
+                gsap.set(elementsProperties[i].fixerElement, {
+                  position: 'initial',
+                  top: 0
+                })
+              }
+            }
+          )
+        }
+      })
+
+      ScrollTrigger.create({
+        trigger: '.diapo',
+        end: `bottom ${
+          elementsProperties[0].element.clientHeight +
+          elementsProperties[0].marginTop +
+          elementsProperties[0].gap * (length - 1)
+        }`,
+        onLeave: () => {
+          gsap.utils.toArray('.container').forEach((_, i) => {
+            if (i < length - 1) {
+              gsap.set(elementsProperties[i].fixerElement, {
                 position: 'initial',
-                top: 0
+                top: 0,
+                transform: `translateY(${elementsProperties[i].endTransform}px) scale(${elementsProperties[i].scaleTo})`
               })
             }
-          }
-        )
+          })
+        },
+        onEnterBack: () => {
+          gsap.utils.toArray('.container').forEach((_, i) => {
+            if (i < length - 1) {
+              gsap.set(elementsProperties[i].fixerElement, {
+                position: 'fixed',
+                top:
+                  elementsProperties[i].marginTop +
+                  i * elementsProperties[i].gap,
+                transform: `translateY(0) scale(${elementsProperties[i].scaleTo})`
+              })
+            }
+          })
+        }
       })
     })
 
@@ -115,7 +170,7 @@ const App = () => {
             </div>
           ))}
         </section>
-        <section style={{ paddingLeft: 60, opacity: 0 }}>
+        <section style={{ paddingLeft: 60 }}>
           <p>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Totam
             maiores eaque at architecto sapiente! Ipsam dolorem dignissimos
@@ -128,17 +183,7 @@ const App = () => {
             nam! Odio autem voluptate blanditiis tempora, doloremque labore
             impedit enim illum non dolorum, ut perferendis nulla!
           </p>
-          <p>
-            Facilis rerum culpa ex soluta sapiente beatae assumenda, magni
-            voluptatibus quibusdam. Magnam incidunt quis in excepturi,
-            voluptatum sint deleniti consectetur quaerat ex a officiis neque?
-            Aliquid reprehenderit laborum consequatur quam repellendus, sequi
-            veniam et unde natus provident. Iste illo tenetur quidem nobis
-            laborum, illum molestiae quisquam, expedita fuga praesentium
-            perferendis facilis obcaecati vero cupiditate saepe alias. Culpa,
-            similique dolores numquam ipsum atque dolore autem aliquid veniam
-            iure in, praesentium blanditiis magni fuga.
-          </p>
+          <p>Ipsam dolorem dignissimos tempore vitae perferendis?</p>
         </section>
       </main>
     </ReactLenis>

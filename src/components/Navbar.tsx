@@ -10,8 +10,8 @@ const Navbar = () => {
   const listRef = useRef<HTMLUListElement>(null)
   const [activeItemIndex, setActiveItemIndex] = useState(0)
   const [itemsX, setItemsX] = useState<number[]>([])
-  const [lerpPointX, setLerpPointX] = useState(0)
-  const [pointX, setPointX] = useState(0)
+  const [lerpPointX, setLerpPointX] = useState(-100)
+  const [pointX, setPointX] = useState(-100)
 
   const handleWindowResize = () => {
     const items = listRef.current!.children
@@ -30,17 +30,17 @@ const Navbar = () => {
     setPointX(position)
   }
 
-  const handleMouseLeaveLink = () => {
+  const handleMouseLeaveLink = useCallback(() => {
     const position = itemsX[activeItemIndex]
     setPointX(position)
-  }
-
-  const setMousePosition = useCallback(() => {
-    setLerpPointX(lerp(lerpPointX, pointX, 0.08))
-    requestRef.current = requestAnimationFrame(setMousePosition)
-  }, [pointX, lerpPointX])
+  }, [activeItemIndex, itemsX])
 
   useEffect(() => {
+    const setMousePosition = () => {
+      setLerpPointX(lerp(lerpPointX, pointX, 0.08))
+      requestRef.current = requestAnimationFrame(setMousePosition)
+    }
+
     window.addEventListener('resize', handleWindowResize)
     requestRef.current = requestAnimationFrame(setMousePosition)
 
@@ -48,7 +48,7 @@ const Navbar = () => {
       window.removeEventListener('resize', handleWindowResize)
       cancelAnimationFrame(requestRef.current)
     }
-  }, [setMousePosition])
+  }, [lerpPointX, pointX])
 
   useEffect(() => {
     handleWindowResize()
@@ -63,7 +63,7 @@ const Navbar = () => {
         <span
           ref={pointRef}
           className='point'
-          style={{ transform: `translateX(calc(${lerpPointX}px - 50%))` }}
+          style={{ transform: `translateX(${lerpPointX}px)` }}
         />
         <ul ref={listRef}>
           {['Home', 'Work', 'Profile', 'Journal'].map((item, i) => (
