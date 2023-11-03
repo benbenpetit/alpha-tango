@@ -1,9 +1,12 @@
+import { useLenis } from '@studio-freight/react-lenis'
 import clsx from 'clsx'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { FLOWERS } from '../constants/data'
 
 const lerp = (a: number, b: number, n: number) => (1 - n) * a + n * b
 
 const Navbar = () => {
+  const lenis = useLenis()
   const requestRef = useRef<number>(0)
   const navRef = useRef<HTMLElement>(null)
   const pointRef = useRef<HTMLSpanElement>(null)
@@ -66,16 +69,25 @@ const Navbar = () => {
           style={{ transform: `translateX(${lerpPointX}px)` }}
         />
         <ul ref={listRef}>
-          {['Home', 'Work', 'Profile', 'Journal'].map((item, i) => (
-            <li
-              key={i}
-              className={clsx(activeItemIndex === i && 'is-active')}
-              onClick={() => setActiveItemIndex(i)}
-              onMouseEnter={() => handleMouseEnterLink(i)}
-              onMouseLeave={handleMouseLeaveLink}
+          {FLOWERS.map((flower, i) => (
+            <a
+              href={`#${flower.href}`}
+              onClick={() =>
+                lenis.scrollTo(`#${flower.href}`, {
+                  duration: 2
+                })
+              }
             >
-              {item}
-            </li>
+              <li
+                key={i}
+                className={clsx(activeItemIndex === i && 'is-active')}
+                onClick={() => setActiveItemIndex(i)}
+                onMouseEnter={() => handleMouseEnterLink(i)}
+                onMouseLeave={handleMouseLeaveLink}
+              >
+                {flower.title}
+              </li>
+            </a>
           ))}
         </ul>
       </nav>

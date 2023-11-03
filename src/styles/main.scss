@@ -38,6 +38,7 @@ body {
   margin: 0;
   background-color: #632692;
   font-family: 'Neue Montreal', sans-serif;
+  scroll-behavior: smooth;
 }
 
 header {
@@ -89,6 +90,10 @@ header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      a {
+        text-decoration: none;
+      }
 
       li {
         padding: 0 16px;

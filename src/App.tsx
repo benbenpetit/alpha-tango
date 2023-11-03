@@ -3,28 +3,10 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/all'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import Navbar from './components/Navbar'
+import { FLOWERS } from './constants/data'
 import './styles/main.scss'
 
 gsap.registerPlugin(ScrollTrigger)
-
-const IMAGES = [
-  {
-    url: 'flower-1.jpg',
-    title: 'Flower 1'
-  },
-  {
-    url: 'flower-2.jpg',
-    title: 'Flower 2'
-  },
-  {
-    url: 'flower-3.jpg',
-    title: 'Flower 3'
-  },
-  {
-    url: 'flower-4.jpg',
-    title: 'Flower 4'
-  }
-]
 
 const getImageUrl = (x: string) => {
   return new URL(`/src/assets/img/${x}`, import.meta.url).href
@@ -162,10 +144,15 @@ const App = () => {
       <main>
         <h1>Botanical art</h1>
         <section ref={diapoRef} className='diapo'>
-          {IMAGES.map((x, i) => (
-            <div key={i} className='container' style={{ ...sizeStyle }}>
+          {FLOWERS.map((flower, i) => (
+            <div
+              key={i}
+              id={flower.href}
+              className='container'
+              style={{ ...sizeStyle }}
+            >
               <div className='fixer' style={{ ...sizeStyle }}>
-                <img src={getImageUrl(x.url)} alt={x.title} />
+                <img src={getImageUrl(flower.url)} alt={flower.title} />
               </div>
             </div>
           ))}
